@@ -1,0 +1,1210 @@
+@charset "UTF-8";
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure, fieldset):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+  scrollbar-gutter: stable;
+  /**
+    Плавный скролл
+   */
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+a {
+  text-decoration: none !important;
+  color: var(--color-white);
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+  Убирает серую подсветку при тапе на мобильных устройствах (iOS/Android)
+ */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill=none],
+[fill^=url])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+:where([stroke]:not([stroke=none],
+[stroke^=url])) {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Bold.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo2";
+  src: url("./fonts/Exo2-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Medium.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Black.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Bold.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo2";
+  src: url("./fonts/Exo2-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Medium.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Black.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+:root {
+  --container-width: 1512px;
+  --container-padding: 16px;
+  --background-color: #000001;
+  --font-family: "Orbitron", sans-serif;
+  --transition-duration: 0.2s;
+  --color-white: #FFFFFF;
+  --color-button: #6F00A9;
+}
+
+body {
+  text-transform: uppercase;
+  color: var(--color-white);
+  line-height: 2.22;
+  font-weight: 500;
+  font-family: var(--font-family), sans-serif;
+  background-color: var(--background-color);
+  scroll-behavior: smooth;
+}
+
+/*.container{
+  max-width: calc(var(--container-width) + var(--container-padding) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}*/
+.animation:hover {
+  transition-duration: var(--transition-duration);
+  color: var(--color-button);
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 60px;
+  width: 16.5em;
+  height: 3.125em;
+  background-color: var(--color-button);
+  border: none;
+}
+.button:hover {
+  transition-duration: var(--transition-duration);
+  background-color: var(--color-white);
+  color: var(--color-button) !important;
+}
+
+.dividing-line {
+  border: none;
+  width: 100%;
+  height: 2.5em;
+  background: linear-gradient(90deg, #2b0b0b 0%, #132a10 45%, #0d211a 65%, #071126 100%);
+}
+
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Bold.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo2";
+  src: url("./fonts/Exo2-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Medium.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Black.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+:root {
+  --container-width: 1512px;
+  --container-padding: 16px;
+  --background-color: #000001;
+  --font-family: "Orbitron", sans-serif;
+  --transition-duration: 0.2s;
+  --color-white: #FFFFFF;
+  --color-button: #6F00A9;
+}
+
+body {
+  text-transform: uppercase;
+  color: var(--color-white);
+  line-height: 2.22;
+  font-weight: 500;
+  font-family: var(--font-family), sans-serif;
+  background-color: var(--background-color);
+  scroll-behavior: smooth;
+}
+
+/*.container{
+  max-width: calc(var(--container-width) + var(--container-padding) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}*/
+.animation:hover {
+  transition-duration: var(--transition-duration);
+  color: var(--color-button);
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 60px;
+  width: 16.5em;
+  height: 3.125em;
+  background-color: var(--color-button);
+  border: none;
+}
+.button:hover {
+  transition-duration: var(--transition-duration);
+  background-color: var(--color-white);
+  color: var(--color-button) !important;
+}
+
+.dividing-line {
+  border: none;
+  width: 100%;
+  height: 2.5em;
+  background: linear-gradient(90deg, #2b0b0b 0%, #132a10 45%, #0d211a 65%, #071126 100%);
+}
+
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure, fieldset):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+  scrollbar-gutter: stable;
+  /**
+    Плавный скролл
+   */
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+a {
+  text-decoration: none !important;
+  color: var(--color-white);
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+  Убирает серую подсветку при тапе на мобильных устройствах (iOS/Android)
+ */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill=none],
+[fill^=url])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+:where([stroke]:not([stroke=none],
+[stroke^=url])) {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+.H_section_block {
+  display: grid;
+  width: 100%;
+  min-height: 274px;
+  grid-template-columns: [logo] 1fr [nav] auto [none] 1fr;
+}
+.H_section_block .H_Logo {
+  font-family: "Exo2", sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  line-height: 6.7;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  justify-content: start;
+  padding-left: clamp(1.25rem, 6vw, 6.875rem);
+}
+.H_section_block .H_list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.25;
+  column-gap: 3.75rem;
+  margin-top: 26%;
+}
+
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Bold.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo2";
+  src: url("./fonts/Exo2-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Medium.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Black.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+:root {
+  --container-width: 1512px;
+  --container-padding: 16px;
+  --background-color: #000001;
+  --font-family: "Orbitron", sans-serif;
+  --transition-duration: 0.2s;
+  --color-white: #FFFFFF;
+  --color-button: #6F00A9;
+}
+
+body {
+  text-transform: uppercase;
+  color: var(--color-white);
+  line-height: 2.22;
+  font-weight: 500;
+  font-family: var(--font-family), sans-serif;
+  background-color: var(--background-color);
+  scroll-behavior: smooth;
+}
+
+/*.container{
+  max-width: calc(var(--container-width) + var(--container-padding) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}*/
+.animation:hover {
+  transition-duration: var(--transition-duration);
+  color: var(--color-button);
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 60px;
+  width: 16.5em;
+  height: 3.125em;
+  background-color: var(--color-button);
+  border: none;
+}
+.button:hover {
+  transition-duration: var(--transition-duration);
+  background-color: var(--color-white);
+  color: var(--color-button) !important;
+}
+
+.dividing-line {
+  border: none;
+  width: 100%;
+  height: 2.5em;
+  background: linear-gradient(90deg, #2b0b0b 0%, #132a10 45%, #0d211a 65%, #071126 100%);
+}
+
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure, fieldset):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+  scrollbar-gutter: stable;
+  /**
+    Плавный скролл
+   */
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+a {
+  text-decoration: none !important;
+  color: var(--color-white);
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+  Убирает серую подсветку при тапе на мобильных устройствах (iOS/Android)
+ */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill=none],
+[fill^=url])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+:where([stroke]:not([stroke=none],
+[stroke^=url])) {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+.M {
+  width: 100%;
+}
+.M .M_about {
+  display: grid;
+  grid-template-columns: [About-Me] 1fr [img] 0.7fr;
+  min-height: 37.5em;
+}
+.M .M_about .M_about-me {
+  display: flex;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 37.5em;
+  flex-direction: column;
+  padding-top: 7.5em;
+  padding-inline: 7.5em;
+  padding-bottom: 10em;
+  row-gap: 1.25em;
+  position: relative;
+}
+.M .M_about .M_about-me .M_gradient {
+  position: absolute;
+}
+.M .M_about .M_about-me .M_Name {
+  font-family: Exo, serif;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+.M .M_about .M_about-me .M_title {
+  font-family: Exo, serif;
+  font-weight: 700;
+  font-size: 5rem;
+  line-height: 0.88;
+  color: var(--color-white);
+}
+.M .M_about .M_about-me .M_info {
+  position: relative;
+  font-family: Exo2, serif;
+  font-weight: 400;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+  color: var(--color-white);
+  margin-bottom: 20px;
+  margin-right: 18em;
+}
+.M .M_about .M_about-me .M_My-Work {
+  position: absolute;
+  font-family: Orbitron, serif;
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-white);
+  margin-right: 8em;
+  top: 70%;
+}
+.M .M_review {
+  background: url("./background-images/Section-Presentjpg.jpg") no-repeat center/cover;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  min-height: 37.5em;
+}
+.M .M_review .M_review-me {
+  padding-top: 9.375em;
+}
+.M .M_review .M_review-me .M_title-review {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-family: Exo, serif;
+  font-weight: 700;
+  font-size: 3.75rem;
+  line-height: 1.17;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+.M .M_review .M_review-me .M_line-present {
+  position: absolute;
+  width: 100%;
+}
+.M .M_review .M_review-me .M_represent {
+  padding-top: 0.5em;
+  padding-bottom: 3.75em;
+  font-family: Exo2, serif;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 2.22;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-transform: capitalize;
+  color: var(--color-white);
+}
+.M .M_review .M_projects .M_list-projects {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+.M .M_review .M_projects .M_list-projects .M_item-list-projects {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  text-transform: capitalize;
+  color: var(--color-white);
+}
+.M .M_review .M_projects .M_list-projects .M_item-list-projects::after {
+  content: "";
+  display: inline-block;
+  background: url("./svg/Ellipse.svg") no-repeat center/cover;
+  width: 0.625em;
+  height: 0.625em;
+  margin-inline: 1.875em;
+}
+.M .M_Videos {
+  background: url("./background-images/Film.png") no-repeat center/cover;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  height: 130em;
+}
+.M .M_Videos .M_title-Works {
+  position: relative;
+  font-weight: 700;
+  font-size: 3.75rem;
+  line-height: 1.17;
+  color: var(--color-white);
+}
+.M .M_Videos .M_title-Works:after {
+  content: "";
+  background: url("./svg/Line-Works.svg") no-repeat center/contain;
+  display: block;
+  width: 100%;
+  height: 5%;
+  padding-top: 0.5em;
+}
+.M .M_Videos .M_title-Works {
+  margin-top: 1em;
+}
+.M .M_Videos .M_videos-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5em;
+}
+.M .M_Videos .M_videos-list .list-small-videos {
+  border: 5px solid var(--color-button);
+  width: 27.5em;
+}
+.M .M_Videos .M_videos-list {
+  padding-block: 4.875em;
+}
+.M .M_Videos .M_big-video {
+  border-radius: 4.125em;
+  width: 93.75em;
+}
+
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("./fonts/Exo-Bold.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Exo2";
+  src: url("./fonts/Exo2-Regular.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Medium.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron";
+  src: url("./fonts/Orbitron-Black.woff2") format(woff2);
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+.F {
+  width: 100%;
+  min-height: 37.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.F .F_title {
+  position: relative;
+  font-family: Exo, sans-serif;
+  font-weight: 700;
+  font-size: 3.75rem;
+  line-height: 1.17;
+  padding-bottom: 1em;
+}
+.F .F_title::after {
+  position: absolute;
+  content: "";
+  display: block;
+  background: url("./svg/Line-Footer.svg") no-repeat center/contain;
+  width: 100%;
+  height: 20%;
+}
+.F .F_text-me {
+  font-family: "Orbitron", sans-serif;
+  padding: 0.625em 2.5em;
+  width: 12em;
+  height: 5em;
+  line-height: 0.56;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--color-white);
+}
+.F .F_contacts {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1.563em;
+  column-gap: 1.25em;
+}
+.F .F_contacts .Mail {
+  color: var(--color-button);
+}
+.F .F_contacts .Nickname {
+  font-weight: 400;
+  font-family: Exo, sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: lowercase;
+  font-size: 1.25rem;
+  color: var(--color-white);
+}
+
+/*# sourceMappingURL=styles.css.map */

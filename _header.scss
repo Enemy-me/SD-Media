@@ -1,0 +1,51 @@
+@import "global";
+@import "normilize";
+
+
+
+
+.H_section_block{
+
+
+  display: grid;
+  width: 100%;
+  min-height: 274px;
+  grid-template-columns: [logo] 1fr [nav] auto [none] 1fr;
+
+  .H_Logo{
+    font-family: "Exo2", sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 6.7;
+    @include center-align;
+    justify-content: start;
+    padding-left: clamp(1.25rem ,6vw, 6.875rem);
+  }
+
+
+  .H_list{
+    @include center-align;
+
+    line-height: 1.25;
+    column-gap: 3.75rem;
+
+    margin-top:  26%;
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
