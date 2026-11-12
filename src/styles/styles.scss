@@ -1,0 +1,17 @@
+
+// Дополнительные Стили
+
+@use "abstracts";
+@use "fonts";
+@use "variables";
+@use "mixins";
+@use "utils";
+
+// Основные Стили
+
+@use "landing_blocks/header";
+
+@use "landing_blocks/main";
+
+@use "landing_blocks/footer";
+
